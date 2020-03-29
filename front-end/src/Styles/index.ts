@@ -43,6 +43,17 @@ export const styles = makeStyles((theme: Theme) =>
     pageTitle: {
       padding: theme.spacing(2),
       textAlign: "center"
+    },
+    loadingContainer: {
+      width: "100vw",
+      height: "100vh",
+      textAlign: "center"
+    },
+    loadingContent: {
+      // Add Style Here to Center it Vertically
+    },
+    loadingCircle: {
+      margin: "40px"
     }
   })
 );

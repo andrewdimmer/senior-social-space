@@ -13,6 +13,9 @@ import {
 } from "./Components/Pages";
 import { firebaseApp } from "./Scripts/FirebaseConfig";
 import { styles } from "./Styles";
+import Loading from "./Components/Misc/LoadingPage";
+import { TwilioVideoRoot } from "./Components/Video";
+import VideoDialog from "./Components/Layouts/VideoDialog";
 
 const App: React.FunctionComponent = () => {
   const [currentUser, setCurrentUser] = React.useState<firebase.User | null>(
@@ -26,6 +29,7 @@ const App: React.FunctionComponent = () => {
   });
   const [reloadUserData, setReloadUserData] = React.useState<boolean>(true);
   const [isTourOpen, setTourOpen] = React.useState<boolean>(false);
+  const [busyMessage, setBusyMessage] = React.useState<string>("");
 
   const handleChangePage = (pageKey: string) => {
     setPageKey(pageKey);
@@ -46,7 +50,6 @@ const App: React.FunctionComponent = () => {
       const oneTimeLoadListener = firebaseApp
         .auth()
         .onAuthStateChanged(user => {
-          console.log(user);
           setCurrentUser(user);
           oneTimeLoadListener(); // Removes the listener after it runs
         });
@@ -61,28 +64,43 @@ const App: React.FunctionComponent = () => {
 
   return (
     <Fragment>
-      <NavBar
+      {busyMessage && <Loading busyMessage={busyMessage} classes={classes} />}
+      {window.location.href.indexOf("?groupId=") > 0 &&
+        TwilioVideoRoot(currentUser)}
+      <VideoDialog
+        video={window.location.href.indexOf("?groupId=") > 0}
         currentUser={currentUser}
-        pageTitle={getPageTitle(pageKey)}
-        handleChangePage={handleChangePage}
+        handleUpdateNotification={handleUpdateNotification}
+        setPageKey={setPageKey}
+        forceReloadUserData={forceReloadUserData}
+        setBusyMessage={setBusyMessage}
         classes={classes}
       />
-      <NotificationBar
-        type={notification.type}
-        message={notification.message}
-        open={notification.open}
-        update={handleUpdateNotification}
-      />
-      <Container>
-        <PageContent
-          currentUser={currentUser}
-          handleUpdateNotification={handleUpdateNotification}
-          setPageKey={setPageKey}
-          forceReloadUserData={forceReloadUserData}
-          classes={classes}
-        />
-      </Container>
-      <Fab
+      {window.location.href.indexOf("?groupId=") < 0 && (
+        <Fragment>
+          <NavBar
+            currentUser={currentUser}
+            pageTitle={getPageTitle(pageKey)}
+            handleChangePage={handleChangePage}
+            classes={classes}
+          />
+          <NotificationBar
+            type={notification.type}
+            message={notification.message}
+            open={notification.open}
+            update={handleUpdateNotification}
+          />
+          <Container>
+            <PageContent
+              currentUser={currentUser}
+              handleUpdateNotification={handleUpdateNotification}
+              setPageKey={setPageKey}
+              forceReloadUserData={forceReloadUserData}
+              setBusyMessage={setBusyMessage}
+              classes={classes}
+            />
+          </Container>
+          <Fab
         style={{
           position: "fixed",
           bottom: "5vh",
@@ -107,6 +125,8 @@ const App: React.FunctionComponent = () => {
         }}
         disableInteraction={false}
       />
+        </Fragment>
+      )}
     </Fragment>
   );
 };

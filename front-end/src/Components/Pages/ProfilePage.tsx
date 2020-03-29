@@ -17,13 +17,23 @@ import EditIcon from "@material-ui/icons/Edit";
 import { DropzoneArea } from "material-ui-dropzone";
 import React, { Fragment } from "react";
 import { PageProps } from ".";
+import {
+  updateDisplayNameDatabase,
+  updateEmailDatabase,
+  updatePhoneDatabase,
+  updatePhotoUrlDatabase
+} from "../../Scripts/firebaseProfileUpdates";
 import SquareAvatar from "../Misc/SquareAvatar";
+import { profilePicturesRef } from "../../Scripts/firebaseConfig";
+import * as firebase from "firebase";
+
 declare interface ProfilePageProps extends PageProps {}
 
 const ProfilePage: React.FunctionComponent<PageProps> = ({
   currentUser,
   handleUpdateNotification,
   forceReloadUserData,
+  setBusyMessage,
   classes
 }) => {
   const [displayName, setDisplayName] = React.useState<string>(
@@ -37,7 +47,7 @@ const ProfilePage: React.FunctionComponent<PageProps> = ({
   );
   const [password, setPassword] = React.useState<string>("");
   const [password2, setPassword2] = React.useState<string>("");
-  const [newProfilePictire, setNewProfilePicture] = React.useState<any>(null);
+  const [newProfilePicture, setNewProfilePicture] = React.useState<any>(null);
   const [editing, setEditing] = React.useState({
     displayName: !displayName,
     email: !email,
@@ -96,11 +106,303 @@ const ProfilePage: React.FunctionComponent<PageProps> = ({
     setNewProfilePicture(null);
   };
 
-  const saveDisplayName = () => {};
-  const saveEmail = () => {};
-  const savePhone = () => {};
-  const savePassword = () => {};
-  const saveImage = () => {};
+  const saveDisplayName = () => {
+    currentUser
+      ?.updateProfile({ displayName })
+      .then(() => {
+        updateDisplayNameDatabase(
+          currentUser.uid,
+          currentUser.displayName ? currentUser.displayName : "",
+          displayName
+        )
+          .then(value => {
+            if (value) {
+              handleUpdateNotification({
+                type: "success",
+                message: "Display Name Updated Successfully!",
+                open: true
+              });
+              forceReloadUserData();
+              cancelEditing("displayName");
+            } else {
+              handleUpdateNotification({
+                type: "warning",
+                message:
+                  "Something may have gone wrong while updating your display name. It should fix itself, but if your new display name is not visiable after a few minutes, please try updating it again.",
+                open: true
+              });
+              cancelEditing("displayName");
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            handleUpdateNotification({
+              type: "warning",
+              message:
+                "Something may have gone wrong while updating your display name. It should fix itself, but if your new display name is not visiable after a few minutes, please try updating it again.",
+              open: true
+            });
+            cancelEditing("displayName");
+          });
+      })
+      .catch(err => {
+        console.log(err);
+        handleUpdateNotification({
+          type: "error",
+          message: "Unable to update display name. Please try again later.",
+          open: true
+        });
+        cancelEditing("displayName");
+      });
+  };
+
+  const saveEmail = () => {
+    currentUser
+      ?.updateEmail(email)
+      .then(() => {
+        updateEmailDatabase(
+          currentUser.uid,
+          currentUser.email ? currentUser.email : "",
+          email
+        )
+          .then(value => {
+            if (value) {
+              handleUpdateNotification({
+                type: "success",
+                message: "Email Address Updated Successfully!",
+                open: true
+              });
+              forceReloadUserData();
+              cancelEditing("email");
+            } else {
+              handleUpdateNotification({
+                type: "warning",
+                message:
+                  "Something may have gone wrong while updating your email address. It should fix itself, but if your new email address is not visiable after a few minutes, please try updating it again.",
+                open: true
+              });
+              cancelEditing("email");
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            handleUpdateNotification({
+              type: "warning",
+              message:
+                "Something may have gone wrong while updating your email address. It should fix itself, but if your new email address is not visiable after a few minutes, please try updating it again.",
+              open: true
+            });
+            cancelEditing("email");
+          });
+      })
+      .catch(err => {
+        console.log(err);
+        handleUpdateNotification({
+          type: "error",
+          message: `Unable to update email address. ${
+            err.message ? err.message : "Please try again later."
+          }`,
+          open: true
+        });
+        cancelEditing("email");
+      });
+  };
+
+  const savePhone = () => {
+    if (currentUser) {
+      updatePhoneDatabase(
+        currentUser.uid,
+        currentUser.phoneNumber ? currentUser.phoneNumber : "",
+        phone
+      )
+        .then(value => {
+          if (value) {
+            handleUpdateNotification({
+              type: "info",
+              message:
+                "Phone Number Updated Successfully! Note that this does not change how you sign in, just how other people can connect with you.",
+              open: true
+            });
+            forceReloadUserData();
+            cancelEditing("phone");
+          } else {
+            handleUpdateNotification({
+              type: "warning",
+              message:
+                "Something may have gone wrong while updating your phone number. It should fix itself, but if your new phone number is not visiable after a few minutes, please try updating it again.",
+              open: true
+            });
+            cancelEditing("phone");
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          handleUpdateNotification({
+            type: "warning",
+            message:
+              "Something may have gone wrong while updating your phone number. It should fix itself, but if your new phone number is not visiable after a few minutes, please try updating it again.",
+            open: true
+          });
+          cancelEditing("phone");
+        });
+    } else {
+      handleUpdateNotification({
+        type: "error",
+        message:
+          "Unable to update phone number. Try signing off and signing back in.",
+        open: true
+      });
+      cancelEditing("phone");
+    }
+  };
+
+  const savePassword = () => {
+    if (password === password2) {
+      currentUser
+        ?.updatePassword(password)
+        .then(() => {
+          handleUpdateNotification({
+            type: "success",
+            message: "Password Updated Successfully!",
+            open: true
+          });
+          cancelEditingPassword();
+        })
+        .catch(err => {
+          console.log(err);
+          handleUpdateNotification({
+            type: "error",
+            message: `Unable to update password. ${
+              err.message ? err.message : "Please try again later."
+            }`,
+            open: true
+          });
+        });
+    } else {
+      handleUpdateNotification({
+        type: "error",
+        message: "Unable to update password. Passwords do not match.",
+        open: true
+      });
+    }
+  };
+
+  const saveImage = () => {
+    if (currentUser) {
+      if (newProfilePicture) {
+        // Start the unload
+        const newProfilePictureUploadTask = profilePicturesRef
+          .child(currentUser.uid)
+          .put(newProfilePicture);
+
+        // Listen for state changes, errors, and completion of the upload.
+        newProfilePictureUploadTask.on(
+          firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+          (snapshot: {
+            bytesTransferred: number;
+            totalBytes: number;
+            state: any;
+          }) => {
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            var progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            switch (snapshot.state) {
+              case firebase.storage.TaskState.PAUSED: // or 'paused'
+                handleUpdateNotification({
+                  type: "info",
+                  message: `Upload is paused and ${progress}% done`,
+                  open: true
+                });
+                break;
+              case firebase.storage.TaskState.RUNNING: // or 'running'
+                handleUpdateNotification({
+                  type: "info",
+                  message: `Upload is running and ${progress}% done`,
+                  open: true
+                });
+                break;
+            }
+          },
+          (error: { message: any }) => {
+            handleUpdateNotification({
+              type: "error",
+              message: error.message,
+              open: true
+            });
+          },
+          () => {
+            // Upload completed successfully, now we can get the download URL
+            newProfilePictureUploadTask.snapshot.ref
+              .getDownloadURL()
+              .then(downloadURL => {
+                saveImageHelper(currentUser, downloadURL);
+              });
+          }
+        );
+      } else {
+        saveImageHelper(currentUser, "");
+      }
+    } else {
+      handleUpdateNotification({
+        type: "error",
+        message:
+          "Unable to update profile picture. Try signing out and signing back in.",
+        open: true
+      });
+    }
+  };
+
+  const saveImageHelper = (user: firebase.User, newPhotoUrl: string) => {
+    user
+      .updateProfile({ photoURL: newPhotoUrl })
+      .then(() => {
+        updatePhotoUrlDatabase(
+          user.uid,
+          user.photoURL ? user.photoURL : "",
+          newPhotoUrl
+        )
+          .then(value => {
+            if (value) {
+              handleUpdateNotification({
+                type: "success",
+                message: "Profile Picture Updated Successfully!",
+                open: true
+              });
+              forceReloadUserData();
+              cancelEditingImage();
+            } else {
+              handleUpdateNotification({
+                type: "warning",
+                message:
+                  "Something may have gone wrong while updating your profile picture. It should fix itself, but if your new profile picture is not visiable after a few minutes, please try updating it again.",
+                open: true
+              });
+              cancelEditingImage();
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            handleUpdateNotification({
+              type: "warning",
+              message:
+                "Something may have gone wrong while updating your profile picture. It should fix itself, but if your new profile picture is not visiable after a few minutes, please try updating it again.",
+              open: true
+            });
+            cancelEditingImage();
+          });
+      })
+      .catch(err => {
+        console.log(err);
+        handleUpdateNotification({
+          type: "error",
+          message: `Unable to profile picture. ${
+            err.message ? err.message : "Please try again later."
+          }`,
+          open: true
+        });
+        cancelEditingImage();
+      });
+  };
 
   const handleDisplayNameChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -446,6 +748,7 @@ const ProfilePage: React.FunctionComponent<PageProps> = ({
                       onChange={handlePasswordChange}
                       helperText="Please enter a new password."
                       variant="outlined"
+                      type="password"
                     />
                     <TextField
                       fullWidth
@@ -454,6 +757,7 @@ const ProfilePage: React.FunctionComponent<PageProps> = ({
                       onChange={handlePassword2Change}
                       helperText="Please confirm your new password."
                       variant="outlined"
+                      type="password"
                     />
                   </Grid>
                   <Grid

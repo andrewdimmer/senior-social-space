@@ -143,7 +143,7 @@ export const getUserIdToPhotoUrlMapping = (
  * @description Adds a new mapping between the given email address and userId.
  * @param email The email address to add a mapping for.
  * @param userId The userId to be associated with the the provided email address.
- * @returns true if there where no errors while adding the new mapping.
+ * @returns true if there where no errors while adding the new mapping; false otherwise.
  */
 export const addEmailToUserIdMapping = (
   email: string,
@@ -166,7 +166,7 @@ export const addEmailToUserIdMapping = (
  * @description Adds a new mapping between the given phone number and userId.
  * @param phone The phone number to add a mapping for.
  * @param userId The userId to be associated with the the provided phone number.
- * @returns true if there where no errors while adding the new mapping.
+ * @returns true if there where no errors while adding the new mapping; false otherwise.
  */
 export const addPhoneToUserIdMapping = (
   phone: string,
@@ -189,7 +189,7 @@ export const addPhoneToUserIdMapping = (
  * @description Adds a new mapping between the given userId and display name.
  * @param userId The userId to add a mapping for.
  * @param displayName The display name to be associated with the the provided userId.
- * @returns true if there where no errors while adding the new mapping.
+ * @returns true if there where no errors while adding the new mapping; false otherwise.
  */
 export const addUserIdToDisplayNameMapping = (
   userId: string,
@@ -212,7 +212,7 @@ export const addUserIdToDisplayNameMapping = (
  * @description Adds a new mapping between the given userId and photoUrl.
  * @param userId The userId to add a mapping for.
  * @param photoUrl The photoUrl to be associated with the the provided userId.
- * @returns true if there where no errors while adding the new mapping.
+ * @returns true if there where no errors while adding the new mapping; false otherwise.
  */
 export const addUserIdToPhotoUrlMapping = (
   userId: string,
@@ -240,7 +240,7 @@ export const addUserIdToPhotoUrlMapping = (
  * removeEmailToUserIdMapping
  * @description Removes the mapping associated with the given email address.
  * @param email The email address to remove the mapping for.
- * @returns true if there where no errors while removing the mapping.
+ * @returns true if there where no errors while removing the mapping; false otherwise.
  */
 export const removeEmailToUserIdMapping = (email: string): Promise<boolean> => {
   return emailToUserIdMappings
@@ -259,7 +259,7 @@ export const removeEmailToUserIdMapping = (email: string): Promise<boolean> => {
  * removePhoneToUserIdMapping
  * @description Removes the mapping associated with the given phone number.
  * @param phone The phone number to remove the mapping for.
- * @returns true if there where no errors while removing the mapping.
+ * @returns true if there where no errors while removing the mapping; false otherwise.
  */
 export const removePhoneToUserIdMapping = (phone: string): Promise<boolean> => {
   return phoneToUserIdMappings
@@ -278,7 +278,7 @@ export const removePhoneToUserIdMapping = (phone: string): Promise<boolean> => {
  * removeUserIdToDisplayNameMapping
  * @description Removes the mapping associated with the given userId.
  * @param userId The userId to remove the mapping for.
- * @returns true if there where no errors while removing the mapping.
+ * @returns true if there where no errors while removing the mapping; false otherwise.
  */
 export const removeUserIdToDisplayNameMapping = (
   userId: string
@@ -299,7 +299,7 @@ export const removeUserIdToDisplayNameMapping = (
  * removeUserIdToPhotoUrlMapping
  * @description Removes the mapping associated with the given userId.
  * @param userId The userId to remove the mapping for.
- * @returns true if there where no errors while removing the mapping.
+ * @returns true if there where no errors while removing the mapping; false otherwise.
  */
 export const removeUserIdToPhotoUrlMapping = (
   userId: string
