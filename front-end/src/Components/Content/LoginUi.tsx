@@ -4,10 +4,14 @@ import React, { Fragment } from "react";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import { firebaseApp } from "../../Scripts/FirebaseConfig";
 import { signInSuccessWithAuthResultFactory } from "../../Scripts/FirebaseAuth";
-import { PageProps } from "../Pages";
+import { NotificationMessage } from "../Misc/Notifications";
 
-declare interface LoginUiProps extends PageProps {
+declare interface LoginUiProps {
   allowAnonymousAuth: boolean;
+  handleUpdateNotification: (notificationMessage: NotificationMessage) => void;
+  setPageKey: (pageKey: string) => void;
+  forceReloadUserData: () => void;
+  classes: any;
 }
 
 const LoginUi: React.FunctionComponent<LoginUiProps> = ({
@@ -43,7 +47,13 @@ const LoginUi: React.FunctionComponent<LoginUiProps> = ({
   ];
 
   const newUserCallback = (authResult: firebase.auth.UserCredential) => {
-    setPageKey("home");
+    setPageKey("profile");
+    handleUpdateNotification({
+      type: "info",
+      message:
+        "Almost there! Please fill out some more information below to help your friends recognize you.",
+      open: true
+    });
     forceReloadUserData();
   };
 
