@@ -5,9 +5,9 @@ export const sendSMS = (text: string, number: string) => {
   return send_message(text, number)
     .then(result => {
       if (result) {
-        return false;
-      } else {
         return true;
+      } else {
+        return false;
       }
     })
     .catch(err => {
@@ -19,8 +19,6 @@ export const sendSMS = (text: string, number: string) => {
 const send_message = (text: string, number: string) => {
   const accountSid = functions.config().twilio.accountsid;
   const authToken = functions.config().twilio.authtoken;
-  console.log(accountSid);
-  console.log(authToken);
   const client = twilio(accountSid, authToken);
 
   return client.messages

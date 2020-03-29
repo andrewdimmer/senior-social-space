@@ -5,17 +5,16 @@ export const sendWhatsapp = (text: string, number: string) => {
   return send_whatsapp(text, number)
     .then(result => {
       if (result) {
-        return(false);
+        return true;
       } else {
-        return(true);
+        return false;
       }
     })
     .catch(err => {
       console.log(err);
-      return(false);
+      return false;
     });
 };
-
 
 const send_whatsapp = (text: string, number: string) => {
   const accountSid = functions.config().twilio.accountsid;
@@ -26,7 +25,9 @@ const send_whatsapp = (text: string, number: string) => {
     .create({
       from: "whatsapp:+14155238886",
       body: text,
-      to: "whatsapp:" + number,
+      to: "whatsapp:" + number
     })
-    .then((message: { sid: any }) => {return(message.sid);});
+    .then((message: { sid: any }) => {
+      return message.sid;
+    });
 };

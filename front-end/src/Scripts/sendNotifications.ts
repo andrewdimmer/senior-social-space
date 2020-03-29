@@ -29,7 +29,7 @@ return ky
               groupName +
               ". Click here to join! " +
               link,
-            email: "contactandrewd@gmail.com",
+            email: email,
             subject:
               "You were invited to a call by " + name + " in " + groupName,
             body:
@@ -42,5 +42,4 @@ return ky
           })
         }
       ).then(() => true).catch(() => false);
-    //=> `{data: '🦄'}`
   };
