@@ -15,26 +15,40 @@ export const profileTourSteps = [
   },
   {
     selector: "#profileTourStep4",
-    content: "Click here to save your display name"
+    content:
+      'This is where you can edit the email that your account is linked to. Click "Enter your email adress" and type your email.'
   },
   {
     selector: "#profileTourStep5",
-    content: "Click here to save your display name"
+    content: "Click here to save your email"
   },
   {
     selector: "#profileTourStep6",
-    content: "Click here to save your display name"
+    content: "Here is the phone number associated with your account"
   },
   {
     selector: "#profileTourStep7",
-    content: "Click here to save your display name"
+    content: "Click here to edit your phone number"
   },
   {
     selector: "#profileTourStep8",
-    content: "Click here to save your display name"
+    content: "Here is your password"
   },
   {
-    selector: "profileTourSstep9",
-    content: "Click here to save your display name"
+    selector: "#profileTourStep9",
+    content: "Click here to change your password"
+  },
+  {
+    selector: "#profileTourStep10",
+    content:
+      "Here is your profile picture! This is how other people will see you."
+  },
+  {
+    selector: "#profileTourStep11",
+    content: "Click here to change your profile picture"
+  },
+  {
+    selector: "#profileTourStep12",
+    content: "Thats the profile page! You are all set to use SeniorSocial.Space"
   }
 ];
