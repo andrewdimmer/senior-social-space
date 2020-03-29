@@ -47,6 +47,7 @@ const NavBar: React.FunctionComponent<NavBarProps> = ({
         toggleMenu={toggleMenu}
         signedIn={!!currentUser}
         handleChangePage={handleChangePage}
+        classes={classes}
       />
     </Fragment>
   );

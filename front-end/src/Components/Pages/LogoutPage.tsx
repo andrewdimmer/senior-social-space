@@ -1,4 +1,4 @@
-import { Typography } from "@material-ui/core";
+import { Container, Typography } from "@material-ui/core";
 import React, { Fragment } from "react";
 import { PageProps } from ".";
 import { firebaseApp } from "../../Scripts/FirebaseConfig";
@@ -6,7 +6,8 @@ import { firebaseApp } from "../../Scripts/FirebaseConfig";
 const LogoutPage: React.FunctionComponent<PageProps> = ({
   handleUpdateNotification,
   setPageKey,
-  forceReloadUserData
+  forceReloadUserData,
+  classes
 }) => {
   const handleLogout = () => {
     firebaseApp.auth().signOut();
@@ -21,7 +22,9 @@ const LogoutPage: React.FunctionComponent<PageProps> = ({
 
   return (
     <Fragment>
-      <Typography variant="h1">Logout</Typography>
+      <Container className={classes.pageTitle}>
+        <Typography variant="h3">Logout</Typography>
+      </Container>
       <Typography variant="body1">
         This will eventually log the user out on load.
       </Typography>

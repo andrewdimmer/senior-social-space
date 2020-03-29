@@ -22,6 +22,27 @@ export const styles = makeStyles((theme: Theme) =>
     },
     marginRight: {
       marginRight: theme.spacing(2)
+    },
+    profileAvatarContainer: {
+      width: "100%"
+    },
+    marginsAuto: {
+      margin: "auto"
+    },
+    profileViewEditGrid: {
+      padding: 0,
+      marginTop: theme.spacing(2),
+      marginBottom: theme.spacing(2)
+    },
+    profileEditImageButton: {
+      marginTop: "-60px"
+    },
+    centerText: {
+      textAlign: "center"
+    },
+    pageTitle: {
+      padding: theme.spacing(2),
+      textAlign: "center"
     }
   })
 );

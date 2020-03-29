@@ -1,11 +1,13 @@
-import { Typography } from "@material-ui/core";
+import { Container, Typography } from "@material-ui/core";
 import React, { Fragment } from "react";
 import { PageProps } from ".";
 
-const HomePage: React.FunctionComponent<PageProps> = () => {
+const HomePage: React.FunctionComponent<PageProps> = ({ classes }) => {
   return (
     <Fragment>
-      <Typography variant="h1">Home</Typography>
+      <Container className={classes.pageTitle}>
+        <Typography variant="h3">Home</Typography>
+      </Container>
     </Fragment>
   );
 };

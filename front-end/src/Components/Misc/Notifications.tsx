@@ -4,7 +4,6 @@ import {
   SnackbarContent,
   Theme
 } from "@material-ui/core";
-import { amber, green } from "@material-ui/core/colors";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CloseIcon from "@material-ui/icons/Close";
 import ErrorIcon from "@material-ui/icons/Error";
@@ -23,16 +22,16 @@ const variantIcon = {
 
 const useStyles = makeStyles((theme: Theme) => ({
   success: {
-    backgroundColor: green[600]
+    backgroundColor: theme.palette.success.main
   },
   error: {
-    backgroundColor: "#d32f2f" // From default Material-UI Theme
+    backgroundColor: theme.palette.error.main
   },
   info: {
-    backgroundColor: "#3f51b5" // From default Material-UI Theme
+    backgroundColor: theme.palette.info.main
   },
   warning: {
-    backgroundColor: amber[700]
+    backgroundColor: theme.palette.warning.main
   },
   icon: {
     fontSize: 20

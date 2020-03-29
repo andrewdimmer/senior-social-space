@@ -13,13 +13,15 @@ declare interface LeftMenuProps {
   toggleMenu: () => void;
   signedIn: boolean;
   handleChangePage: (key: string) => void;
+  classes: any;
 }
 
 const LeftMenu: React.FunctionComponent<LeftMenuProps> = ({
   open,
   toggleMenu,
   signedIn,
-  handleChangePage
+  handleChangePage,
+  classes
 }) => {
   const pageListForMenuVisible = pageListForMenu.reduce((visible, nextItem) => {
     if (signedIn && nextItem.displaySignedIn === true) {
@@ -38,6 +40,7 @@ const LeftMenu: React.FunctionComponent<LeftMenuProps> = ({
           return (
             <ListItem
               button
+              className={classes.marginRight}
               key={item.key}
               onClick={() => {
                 handleChangePage(item.key);
