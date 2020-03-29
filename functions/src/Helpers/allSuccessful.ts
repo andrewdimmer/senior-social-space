@@ -30,7 +30,7 @@ export const allSuccessful = (
  * @param successMessage The message to send if all promises ran without encountering errors. If no success message is given, then true will be sent back instead.
  * @param failureMessage The message to send if one or more promises encountered an error. If no failure message is given, then false will be sent back instead.
  */
-export const allSuccessfulResponce = (
+export const allSuccessfulResponse = (
   promises: Promise<boolean>[],
   response: functions.Response<any>,
   successMessage?: string,

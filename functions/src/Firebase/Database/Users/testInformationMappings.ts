@@ -13,14 +13,15 @@ import {
   removeUserIdToDisplayNameMapping,
   removeUserIdToPhotoUrlMapping
 } from "./userInformationMappings";
-import { allSuccessfulResponce } from "../../../Helpers/allSuccessful";
+import { allSuccessfulResponse } from "../../../Helpers/allSuccessful";
 import { logAndReturnFalse } from "../../../Helpers/logErrors";
 
 // Start writing Firebase Functions
 // https://firebase.google.com/docs/functions/typescript
 export const testInformationMappings = functions.https.onRequest(
   (request, response) => {
-    allSuccessfulResponce(
+    response.setHeader("Access-Control-Allow-Origin", "*");
+    allSuccessfulResponse(
       [
         testInformationMappingsEmailToUserId(),
         testInformationMappingsPhoneToUserId(),
