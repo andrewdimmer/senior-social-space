@@ -13,25 +13,25 @@ import {
   removeUserIdToDisplayNameMapping,
   removeUserIdToPhotoUrlMapping
 } from "./userInformationMappings";
+import { allSuccessfulResponse } from "../../../Helpers/allSuccessful";
+import { logAndReturnFalse } from "../../../Helpers/logErrors";
 
 // Start writing Firebase Functions
 // https://firebase.google.com/docs/functions/typescript
 export const testInformationMappings = functions.https.onRequest(
   (request, response) => {
-    const promises = Promise.all([
-      testInformationMappingsEmailToUserId(),
-      testInformationMappingsPhoneToUserId(),
-      testInformationMappingsUserIdToDisplayName(),
-      testInformationMappingsUserIdToPhotoUrl()
-    ]).then(results => {
-      for (const bool in results) {
-        if (!bool) {
-          response.send("One or more test cases failed.");
-        }
-      }
-      response.send("All test cases passed!");
-    });
-    console.log(promises);
+    response.setHeader("Access-Control-Allow-Origin", "*");
+    allSuccessfulResponse(
+      [
+        testInformationMappingsEmailToUserId(),
+        testInformationMappingsPhoneToUserId(),
+        testInformationMappingsUserIdToDisplayName(),
+        testInformationMappingsUserIdToPhotoUrl()
+      ],
+      response,
+      "All test cases passed!",
+      "One or more test cases failed."
+    );
   }
 );
 
@@ -57,27 +57,15 @@ const testInformationMappingsEmailToUserId = (): Promise<boolean> => {
               .then(() =>
                 getEmailToUserIdMapping(testEmail)
                   .then(() => false)
-                  .catch(err => {
-                    console.log(err);
-                    return true;
-                  })
+                  .catch(logAndReturnFalse)
               )
-              .catch(err => {
-                console.log(err);
-                return false;
-              });
+              .catch(logAndReturnFalse);
           }
           return false;
         })
-        .catch(err => {
-          console.log(err);
-          return false;
-        })
+        .catch(logAndReturnFalse)
     )
-    .catch(err => {
-      console.log(err);
-      return false;
-    });
+    .catch(logAndReturnFalse);
 };
 
 /**
@@ -102,27 +90,15 @@ const testInformationMappingsPhoneToUserId = (): Promise<boolean> => {
               .then(() =>
                 getPhoneToUserIdMapping(testPhone)
                   .then(() => false)
-                  .catch(err => {
-                    console.log(err);
-                    return true;
-                  })
+                  .catch(logAndReturnFalse)
               )
-              .catch(err => {
-                console.log(err);
-                return false;
-              });
+              .catch(logAndReturnFalse);
           }
           return false;
         })
-        .catch(err => {
-          console.log(err);
-          return false;
-        })
+        .catch(logAndReturnFalse)
     )
-    .catch(err => {
-      console.log(err);
-      return false;
-    });
+    .catch(logAndReturnFalse);
 };
 
 /**
@@ -147,27 +123,15 @@ const testInformationMappingsUserIdToDisplayName = (): Promise<boolean> => {
               .then(() =>
                 getUserIdToDisplayNameMapping(testUserId)
                   .then(() => false)
-                  .catch(err => {
-                    console.log(err);
-                    return true;
-                  })
+                  .catch(logAndReturnFalse)
               )
-              .catch(err => {
-                console.log(err);
-                return false;
-              });
+              .catch(logAndReturnFalse);
           }
           return false;
         })
-        .catch(err => {
-          console.log(err);
-          return false;
-        })
+        .catch(logAndReturnFalse)
     )
-    .catch(err => {
-      console.log(err);
-      return false;
-    });
+    .catch(logAndReturnFalse);
 };
 
 /**
@@ -192,25 +156,13 @@ const testInformationMappingsUserIdToPhotoUrl = (): Promise<boolean> => {
               .then(() =>
                 getUserIdToPhotoUrlMapping(testUserId)
                   .then(() => false)
-                  .catch(err => {
-                    console.log(err);
-                    return true;
-                  })
+                  .catch(logAndReturnFalse)
               )
-              .catch(err => {
-                console.log(err);
-                return false;
-              });
+              .catch(logAndReturnFalse);
           }
           return false;
         })
-        .catch(err => {
-          console.log(err);
-          return false;
-        })
+        .catch(logAndReturnFalse)
     )
-    .catch(err => {
-      console.log(err);
-      return false;
-    });
+    .catch(logAndReturnFalse);
 };

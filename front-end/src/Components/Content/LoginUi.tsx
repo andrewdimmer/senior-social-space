@@ -2,8 +2,9 @@ import firebase from "firebase";
 import * as firebaseui from "firebaseui";
 import React, { Fragment } from "react";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
-import { firebaseApp } from "../../Scripts/FirebaseConfig";
-import { signInSuccessWithAuthResultFactory } from "../../Scripts/FirebaseAuth";
+import { signInSuccessWithAuthResultFactory } from "../../Scripts/firebaseAuth";
+import { firebaseApp } from "../../Scripts/firebaseConfig";
+import { createNewUserDatabaseObjects } from "../../Scripts/firebaseCreateNewUser";
 import { NotificationMessage } from "../Misc/Notifications";
 
 declare interface LoginUiProps {
@@ -11,6 +12,7 @@ declare interface LoginUiProps {
   handleUpdateNotification: (notificationMessage: NotificationMessage) => void;
   setPageKey: (pageKey: string) => void;
   forceReloadUserData: () => void;
+  setBusyMessage: (busyMessage: string) => void;
   classes: any;
 }
 
@@ -18,7 +20,8 @@ const LoginUi: React.FunctionComponent<LoginUiProps> = ({
   allowAnonymousAuth,
   handleUpdateNotification,
   setPageKey,
-  forceReloadUserData
+  forceReloadUserData,
+  setBusyMessage
 }) => {
   const signInOptions = (allowAnonymousAuth: boolean): any[] => {
     if (allowAnonymousAuth) {
@@ -47,14 +50,57 @@ const LoginUi: React.FunctionComponent<LoginUiProps> = ({
   ];
 
   const newUserCallback = (authResult: firebase.auth.UserCredential) => {
-    setPageKey("profile");
-    handleUpdateNotification({
-      type: "info",
-      message:
-        "Almost there! Please fill out some more information below to help your friends recognize you.",
-      open: true
-    });
-    forceReloadUserData();
+    if (authResult.user) {
+      const user = authResult.user;
+      setBusyMessage("Creating Account...");
+      createNewUserDatabaseObjects({
+        userId: user.uid,
+        displayName: user.displayName ? user.displayName : "",
+        email: user.email ? user.email : "",
+        phone: user.phoneNumber ? user.phoneNumber : "",
+        photoUrl: user.photoURL ? user.photoURL : ""
+      })
+        .then(value => {
+          if (value) {
+            setPageKey("profile");
+            handleUpdateNotification({
+              type: "info",
+              message:
+                "Almost there! Please fill out some more information below to help your friends recognize you.",
+              open: true
+            });
+            forceReloadUserData();
+            setBusyMessage("");
+          } else {
+            handleUpdateNotification({
+              type: "error",
+              message:
+                "Unable to finish creating your account. Please try again later.",
+              open: true
+            });
+            setPageKey("logout");
+            setBusyMessage("");
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          handleUpdateNotification({
+            type: "error",
+            message:
+              "Unable to finish creating your account. Please try again later.",
+            open: true
+          });
+          setPageKey("logout");
+          setBusyMessage("");
+        });
+    } else {
+      handleUpdateNotification({
+        type: "error",
+        message:
+          "Unable to finish creating your account. Please try again later.",
+        open: true
+      });
+    }
   };
 
   const existingUserCallback = (authResult: firebase.auth.UserCredential) => {

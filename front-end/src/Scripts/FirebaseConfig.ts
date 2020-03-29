@@ -10,3 +10,8 @@ export const firebaseApp = firebase.initializeApp({
   appId: process.env.REACT_APP_FIREBASE_APPID,
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENTID
 });
+
+export const profilePicturesRef = firebaseApp
+  .storage()
+  .ref()
+  .child("profilePictures");

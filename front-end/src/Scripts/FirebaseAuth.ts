@@ -1,5 +1,3 @@
-import { firebaseApp } from "./FirebaseConfig";
-
 export const signInSuccessWithAuthResultFactory = (
   newUserCallback: (authResult: firebase.auth.UserCredential) => any,
   existingUserCallback: (authResult: firebase.auth.UserCredential) => any

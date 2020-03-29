@@ -1,12 +1,13 @@
+import { Container } from "@material-ui/core";
 import React, { Fragment } from "react";
 import NavBar from "./Components/Layouts/NavBar";
-import { getPageTitle, getPageComponent } from "./Components/Pages";
 import NotificationBar, {
   NotificationMessage
 } from "./Components/Misc/Notifications";
-import { firebaseApp } from "./Scripts/FirebaseConfig";
+import { getPageComponent, getPageTitle } from "./Components/Pages";
+import { firebaseApp } from "./Scripts/firebaseConfig";
 import { styles } from "./Styles";
-import { Container } from "@material-ui/core";
+import Loading from "./Components/Misc/LoadingPage";
 
 const App: React.FunctionComponent = () => {
   const [currentUser, setCurrentUser] = React.useState<firebase.User | null>(
@@ -19,6 +20,7 @@ const App: React.FunctionComponent = () => {
     open: false
   });
   const [reloadUserData, setReloadUserData] = React.useState<boolean>(true);
+  const [busyMessage, setBusyMessage] = React.useState<string>("");
 
   const handleChangePage = (pageKey: string) => {
     setPageKey(pageKey);
@@ -39,7 +41,6 @@ const App: React.FunctionComponent = () => {
       const oneTimeLoadListener = firebaseApp
         .auth()
         .onAuthStateChanged(user => {
-          console.log(user);
           setCurrentUser(user);
           oneTimeLoadListener(); // Removes the listener after it runs
         });
@@ -54,6 +55,7 @@ const App: React.FunctionComponent = () => {
 
   return (
     <Fragment>
+      {busyMessage && <Loading busyMessage={busyMessage} classes={classes} />}
       <NavBar
         currentUser={currentUser}
         pageTitle={getPageTitle(pageKey)}
@@ -72,6 +74,7 @@ const App: React.FunctionComponent = () => {
           handleUpdateNotification={handleUpdateNotification}
           setPageKey={setPageKey}
           forceReloadUserData={forceReloadUserData}
+          setBusyMessage={setBusyMessage}
           classes={classes}
         />
       </Container>
