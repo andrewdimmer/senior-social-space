@@ -7,6 +7,7 @@ const LoginPage: React.FunctionComponent<PageProps> = ({
   handleUpdateNotification,
   setPageKey,
   forceReloadUserData,
+  setBusyMessage,
   classes
 }) => {
   return (
@@ -19,6 +20,7 @@ const LoginPage: React.FunctionComponent<PageProps> = ({
         handleUpdateNotification={handleUpdateNotification}
         setPageKey={setPageKey}
         forceReloadUserData={forceReloadUserData}
+        setBusyMessage={setBusyMessage}
         classes={classes}
       />
     </Fragment>

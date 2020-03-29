@@ -1,7 +1,7 @@
 import { Container, Typography } from "@material-ui/core";
 import React, { Fragment } from "react";
 import { PageProps } from ".";
-import { firebaseApp } from "../../Scripts/FirebaseConfig";
+import { firebaseApp } from "../../Scripts/firebaseConfig";
 
 const LogoutPage: React.FunctionComponent<PageProps> = ({
   handleUpdateNotification,

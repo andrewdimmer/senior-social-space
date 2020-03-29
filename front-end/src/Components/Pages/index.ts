@@ -15,6 +15,7 @@ export declare interface PageProps {
   handleUpdateNotification: (notificationMessage: NotificationMessage) => void;
   setPageKey: (pageKey: string) => void;
   forceReloadUserData: () => void;
+  setBusyMessage: (busyMessage: string) => void;
   classes: any;
 }
 
