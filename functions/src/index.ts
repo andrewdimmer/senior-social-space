@@ -7,7 +7,8 @@ import {
   updatePhoneDatabase,
   updatePhotoUrlDatabase
 } from "./Firebase/Database/Users/updateUserProfileDatabase";
-import { fullSend } from "./Twilio/fullSend";
+import { fullSend } from "./Twilio/Messages/fullSend";
+import { grantVideoToken } from "./Twilio/Video/grantVideoToken";
 
 // Start writing Firebase Functions
 // https://firebase.google.com/docs/functions/typescript
@@ -15,7 +16,11 @@ export const helloWorld = functions.https.onRequest((request, response) => {
   response.send("Hello from Firebase!");
 });
 
+// Twilio Send Messages
 export const full_send = fullSend;
+
+// Twilio Grant Video Tokens
+export const grant_video_token = grantVideoToken;
 
 // Create New Users
 export const create_new_user = createNewUserDatabaseObjects;

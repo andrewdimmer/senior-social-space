@@ -9,19 +9,15 @@ import { NotificationMessage } from "../Misc/Notifications";
 
 declare interface LoginUiProps {
   allowAnonymousAuth: boolean;
-  handleUpdateNotification: (notificationMessage: NotificationMessage) => void;
-  setPageKey: (pageKey: string) => void;
-  forceReloadUserData: () => void;
-  setBusyMessage: (busyMessage: string) => void;
+  newUserCallback: (authResults: firebase.auth.UserCredential) => void;
+  existingUserCallback: (authResults: firebase.auth.UserCredential) => void;
   classes: any;
 }
 
 const LoginUi: React.FunctionComponent<LoginUiProps> = ({
   allowAnonymousAuth,
-  handleUpdateNotification,
-  setPageKey,
-  forceReloadUserData,
-  setBusyMessage
+  newUserCallback,
+  existingUserCallback
 }) => {
   const signInOptions = (allowAnonymousAuth: boolean): any[] => {
     if (allowAnonymousAuth) {
@@ -48,70 +44,6 @@ const LoginUi: React.FunctionComponent<LoginUiProps> = ({
       }
     }
   ];
-
-  const newUserCallback = (authResult: firebase.auth.UserCredential) => {
-    if (authResult.user) {
-      const user = authResult.user;
-      setBusyMessage("Creating Account...");
-      createNewUserDatabaseObjects({
-        userId: user.uid,
-        displayName: user.displayName ? user.displayName : "",
-        email: user.email ? user.email : "",
-        phone: user.phoneNumber ? user.phoneNumber : "",
-        photoUrl: user.photoURL ? user.photoURL : ""
-      })
-        .then(value => {
-          if (value) {
-            setPageKey("profile");
-            handleUpdateNotification({
-              type: "info",
-              message:
-                "Almost there! Please fill out some more information below to help your friends recognize you.",
-              open: true
-            });
-            forceReloadUserData();
-            setBusyMessage("");
-          } else {
-            handleUpdateNotification({
-              type: "error",
-              message:
-                "Unable to finish creating your account. Please try again later.",
-              open: true
-            });
-            setPageKey("logout");
-            setBusyMessage("");
-          }
-        })
-        .catch(err => {
-          console.log(err);
-          handleUpdateNotification({
-            type: "error",
-            message:
-              "Unable to finish creating your account. Please try again later.",
-            open: true
-          });
-          setPageKey("logout");
-          setBusyMessage("");
-        });
-    } else {
-      handleUpdateNotification({
-        type: "error",
-        message:
-          "Unable to finish creating your account. Please try again later.",
-        open: true
-      });
-    }
-  };
-
-  const existingUserCallback = (authResult: firebase.auth.UserCredential) => {
-    setPageKey("home");
-    handleUpdateNotification({
-      type: "success",
-      message: "Successfully Signed In",
-      open: true
-    });
-    forceReloadUserData();
-  };
 
   const signInSuccessWithAuthResult = signInSuccessWithAuthResultFactory(
     newUserCallback,
