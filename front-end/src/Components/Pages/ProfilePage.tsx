@@ -128,7 +128,7 @@ const ProfilePage: React.FunctionComponent<PageProps> = ({
   return (
     <Fragment>
       <Container className={classes.pageTitle}>
-        <Typography variant="h3" id="profileStep1">
+        <Typography variant="h3" id="profileTourStep1">
           Profile
         </Typography>
       </Container>
@@ -158,7 +158,7 @@ const ProfilePage: React.FunctionComponent<PageProps> = ({
           <Paper
             elevation={3}
             className={classes.marginedPadded}
-            id="profileStep2"
+            id="profileTourStep2"
           >
             <Typography variant="h4">Display Name</Typography>
             <Grid
@@ -185,7 +185,7 @@ const ProfilePage: React.FunctionComponent<PageProps> = ({
                     sm={2}
                     md={1}
                     className={classes.centerText}
-                    id="profileStep3"
+                    id="profileTourStep3"
                   >
                     <Fab
                       color="primary"

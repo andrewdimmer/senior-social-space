@@ -1,15 +1,18 @@
+import { Container, Fab } from "@material-ui/core";
+import HelpIcon from "@material-ui/icons/HelpOutline";
 import React, { Fragment } from "react";
+import Tour from "reactour";
 import NavBar from "./Components/Layouts/NavBar";
-import { getPageTitle, getPageComponent } from "./Components/Pages";
 import NotificationBar, {
   NotificationMessage
 } from "./Components/Misc/Notifications";
+import {
+  getPageComponent,
+  getPageTitle,
+  getPageTourSteps
+} from "./Components/Pages";
 import { firebaseApp } from "./Scripts/FirebaseConfig";
 import { styles } from "./Styles";
-import { Container, Fab } from "@material-ui/core";
-import Tour from "reactour";
-import { steps } from "./Tours/profile";
-import HelpIcon from "@material-ui/icons/HelpOutline";
 
 const App: React.FunctionComponent = () => {
   const [currentUser, setCurrentUser] = React.useState<firebase.User | null>(
@@ -22,6 +25,7 @@ const App: React.FunctionComponent = () => {
     open: false
   });
   const [reloadUserData, setReloadUserData] = React.useState<boolean>(true);
+  const [isTourOpen, setTourOpen] = React.useState<boolean>(false);
 
   const handleChangePage = (pageKey: string) => {
     setPageKey(pageKey);
@@ -55,16 +59,6 @@ const App: React.FunctionComponent = () => {
   const classes = styles();
   const PageContent = getPageComponent(pageKey);
 
-  const [isTourOpen, setTourOpen] = React.useState<boolean>(false);
-
-  const openTour = () => {
-    setTourOpen(true);
-  };
-
-  const closeTour = () => {
-    setTourOpen(false);
-  };
-
   return (
     <Fragment>
       <NavBar
@@ -97,16 +91,19 @@ const App: React.FunctionComponent = () => {
         color="secondary"
         aria-label="add"
         onClick={() => {
-          openTour();
+          console.log(getPageTourSteps(pageKey));
+          if (getPageTourSteps(pageKey).length > 1) {
+            setTourOpen(true);
+          }
         }}
       >
         <HelpIcon />
       </Fab>
       <Tour
-        steps={steps}
+        steps={getPageTourSteps(pageKey)}
         isOpen={isTourOpen}
         onRequestClose={() => {
-          closeTour();
+          setTourOpen(false);
         }}
       />
     </Fragment>

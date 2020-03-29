@@ -3,6 +3,10 @@ import { OverridableComponent } from "@material-ui/core/OverridableComponent";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import HomeIcon from "@material-ui/icons/Home";
+import { homeTourSteps } from "../../Tours/homeTourSteps";
+import { loginTourSteps } from "../../Tours/loginTourSteps";
+import { logoutTourSteps } from "../../Tours/logoutTourSteps";
+import { profileTourSteps } from "../../Tours/profileTourSteps";
 import { NotificationMessage } from "../Misc/Notifications";
 import ErrorPage from "./ErrorPage";
 import HomePage from "./Home";
@@ -29,6 +33,7 @@ export declare interface PageListForMenuItem {
 declare interface PageListItem extends PageListForMenuItem {
   title: string;
   component: React.FunctionComponent<PageProps>;
+  tourSteps: { selector: string; content: string }[];
 }
 
 const pageList: PageListItem[] = [
@@ -39,7 +44,8 @@ const pageList: PageListItem[] = [
     menuIcon: HomeIcon,
     displaySignedIn: true,
     displaySignedOut: true,
-    component: HomePage
+    component: HomePage,
+    tourSteps: homeTourSteps
   },
   {
     key: "login",
@@ -48,7 +54,8 @@ const pageList: PageListItem[] = [
     menuIcon: ExitToAppIcon,
     displaySignedIn: false,
     displaySignedOut: true,
-    component: LoginPage
+    component: LoginPage,
+    tourSteps: loginTourSteps
   },
   {
     key: "profile",
@@ -57,7 +64,8 @@ const pageList: PageListItem[] = [
     menuIcon: AccountCircleIcon,
     displaySignedIn: true,
     displaySignedOut: false,
-    component: ProfilePage
+    component: ProfilePage,
+    tourSteps: profileTourSteps
   },
   {
     key: "logout",
@@ -66,7 +74,8 @@ const pageList: PageListItem[] = [
     menuIcon: ExitToAppIcon,
     displaySignedIn: true,
     displaySignedOut: false,
-    component: LogoutPage
+    component: LogoutPage,
+    tourSteps: logoutTourSteps
   }
 ];
 
@@ -89,6 +98,15 @@ export const getPageTitle = (key: string): string => {
     return pageObject[key].title;
   }
   return "";
+};
+
+export const getPageTourSteps = (
+  key: string
+): { selector: string; content: string }[] => {
+  if (pageObject[key]) {
+    return pageObject[key].tourSteps;
+  }
+  return [];
 };
 
 export const pageListForMenu: PageListForMenuItem[] = pageList.map(
