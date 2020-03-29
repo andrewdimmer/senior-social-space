@@ -11,6 +11,7 @@ import LogoutPage from "./LogoutPage";
 import ProfilePage from "./ProfilePage";
 
 export declare interface PageProps {
+  currentUser: firebase.User | null;
   handleUpdateNotification: (notificationMessage: NotificationMessage) => void;
   setPageKey: (pageKey: string) => void;
   forceReloadUserData: () => void;

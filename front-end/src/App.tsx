@@ -39,7 +39,6 @@ const App: React.FunctionComponent = () => {
       const oneTimeLoadListener = firebaseApp
         .auth()
         .onAuthStateChanged(user => {
-          console.log("State change listener");
           console.log(user);
           setCurrentUser(user);
           oneTimeLoadListener(); // Removes the listener after it runs
@@ -69,6 +68,7 @@ const App: React.FunctionComponent = () => {
       />
       <Container>
         <PageContent
+          currentUser={currentUser}
           handleUpdateNotification={handleUpdateNotification}
           setPageKey={setPageKey}
           forceReloadUserData={forceReloadUserData}
