@@ -105,6 +105,7 @@ const App: React.FunctionComponent = () => {
         onRequestClose={() => {
           setTourOpen(false);
         }}
+        disableInteraction={false}
       />
     </Fragment>
   );

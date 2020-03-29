@@ -2,6 +2,7 @@ import { Button, Container, Typography } from "@material-ui/core";
 import React, { Fragment } from "react";
 import { PageProps } from ".";
 import { sendNotifications } from "../../Scripts/sendNotifications";
+import ContactsPage from "./ContactsPage";
 
 const HomePage: React.FunctionComponent<PageProps> = ({ classes }) => {
   return (
