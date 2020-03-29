@@ -1,12 +1,14 @@
-import { Typography, Button } from "@material-ui/core";
+import { Button, Container, Typography } from "@material-ui/core";
 import React, { Fragment } from "react";
 import { PageProps } from ".";
 import { sendNotifications } from "../../Scripts/sendNotifications";
 
-const HomePage: React.FunctionComponent<PageProps> = () => {
+const HomePage: React.FunctionComponent<PageProps> = ({ classes }) => {
   return (
     <Fragment>
-      <Typography variant="h1">Home</Typography>
+      <Container className={classes.pageTitle}>
+        <Typography variant="h3">Home</Typography>
+      </Container>
       <Button
         onClick={() => {
           sendNotifications(

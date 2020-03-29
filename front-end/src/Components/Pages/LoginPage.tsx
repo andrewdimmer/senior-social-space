@@ -1,4 +1,4 @@
-import { Typography } from "@material-ui/core";
+import { Container, Typography } from "@material-ui/core";
 import React, { Fragment } from "react";
 import { PageProps } from ".";
 import LoginUi from "../Content/LoginUi";
@@ -11,9 +11,11 @@ const LoginPage: React.FunctionComponent<PageProps> = ({
 }) => {
   return (
     <Fragment>
-      <Typography variant="h1">Login</Typography>
+      <Container className={classes.pageTitle}>
+        <Typography variant="h3">Login</Typography>
+      </Container>
       <LoginUi
-        allowAnonymousAuth={false}
+        allowAnonymousAuth={true}
         handleUpdateNotification={handleUpdateNotification}
         setPageKey={setPageKey}
         forceReloadUserData={forceReloadUserData}

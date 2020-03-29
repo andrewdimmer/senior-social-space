@@ -18,7 +18,6 @@ export const signInSuccessWithAuthResultFactory = (
       // Login Successful
       existingUserCallback(authResult);
     }
-    console.log(firebaseApp.auth().currentUser);
     return false;
   };
 };
