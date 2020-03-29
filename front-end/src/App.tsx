@@ -6,7 +6,10 @@ import NotificationBar, {
 } from "./Components/Misc/Notifications";
 import { firebaseApp } from "./Scripts/FirebaseConfig";
 import { styles } from "./Styles";
-import { Container } from "@material-ui/core";
+import { Container, Fab } from "@material-ui/core";
+import Tour from "reactour";
+import { steps } from "./Tours/profile";
+import HelpIcon from "@material-ui/icons/HelpOutline";
 
 const App: React.FunctionComponent = () => {
   const [currentUser, setCurrentUser] = React.useState<firebase.User | null>(
@@ -52,6 +55,16 @@ const App: React.FunctionComponent = () => {
   const classes = styles();
   const PageContent = getPageComponent(pageKey);
 
+  const [isTourOpen, setTourOpen] = React.useState<boolean>(false);
+
+  const openTour = () => {
+    setTourOpen(true);
+  };
+
+  const closeTour = () => {
+    setTourOpen(false);
+  };
+
   return (
     <Fragment>
       <NavBar
@@ -75,6 +88,27 @@ const App: React.FunctionComponent = () => {
           classes={classes}
         />
       </Container>
+      <Fab
+        style={{
+          position: "fixed",
+          bottom: "5vh",
+          right: "5vw"
+        }}
+        color="secondary"
+        aria-label="add"
+        onClick={() => {
+          openTour();
+        }}
+      >
+        <HelpIcon />
+      </Fab>
+      <Tour
+        steps={steps}
+        isOpen={isTourOpen}
+        onRequestClose={() => {
+          closeTour();
+        }}
+      />
     </Fragment>
   );
 };
