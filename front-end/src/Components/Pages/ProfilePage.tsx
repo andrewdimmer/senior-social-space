@@ -133,7 +133,7 @@ const ProfilePage: React.FunctionComponent<PageProps> = ({
         </Typography>
       </Container>
       <Grid container spacing={6}>
-        <Grid item xs={12} sm={12} md={4} lg={3}>
+        <Grid item xs={12} sm={12} md={4} lg={3} id="profileTourStep10">
           <SquareAvatar
             alt={displayName}
             src={currentUser?.photoURL ? currentUser.photoURL : ""}
@@ -150,6 +150,7 @@ const ProfilePage: React.FunctionComponent<PageProps> = ({
               startEditing("image");
             }}
             aria-label="edit-image"
+            id="profileTourStep11"
           >
             <EditIcon />
           </Fab>
@@ -185,7 +186,6 @@ const ProfilePage: React.FunctionComponent<PageProps> = ({
                     sm={2}
                     md={1}
                     className={classes.centerText}
-                    id="profileTourStep3"
                   >
                     <Fab
                       color="primary"
@@ -194,6 +194,7 @@ const ProfilePage: React.FunctionComponent<PageProps> = ({
                         saveDisplayName();
                       }}
                       aria-label="save-display-name"
+                      id="profileTourStep3"
                     >
                       <DoneIcon />
                     </Fab>
@@ -244,7 +245,11 @@ const ProfilePage: React.FunctionComponent<PageProps> = ({
               )}
             </Grid>
           </Paper>
-          <Paper elevation={3} className={classes.marginedPadded}>
+          <Paper
+            elevation={3}
+            className={classes.marginedPadded}
+            id="profileTourStep4"
+          >
             <Typography variant="h4">Email Address</Typography>
             <Grid
               container
@@ -278,6 +283,7 @@ const ProfilePage: React.FunctionComponent<PageProps> = ({
                         saveEmail();
                       }}
                       aria-label="save-email"
+                      id="profileTourStep5"
                     >
                       <DoneIcon />
                     </Fab>
@@ -296,6 +302,7 @@ const ProfilePage: React.FunctionComponent<PageProps> = ({
                         cancelEditingEmail();
                       }}
                       aria-label="cancel-edit-email"
+                      id="profileTourStep5"
                     >
                       <ClearIcon />
                     </Fab>
@@ -328,7 +335,11 @@ const ProfilePage: React.FunctionComponent<PageProps> = ({
               )}
             </Grid>
           </Paper>
-          <Paper elevation={3} className={classes.marginedPadded}>
+          <Paper
+            elevation={3}
+            className={classes.marginedPadded}
+            id="profileTourStep6"
+          >
             <Typography variant="h4">Phone Number</Typography>
             <Grid
               container
@@ -404,6 +415,7 @@ const ProfilePage: React.FunctionComponent<PageProps> = ({
                         startEditing("phone");
                       }}
                       aria-label="edit-phone"
+                      id="profileTourStep7"
                     >
                       <EditIcon />
                     </Fab>
@@ -412,7 +424,11 @@ const ProfilePage: React.FunctionComponent<PageProps> = ({
               )}
             </Grid>
           </Paper>
-          <Paper elevation={3} className={classes.marginedPadded}>
+          <Paper
+            elevation={3}
+            className={classes.marginedPadded}
+            id="profileTourStep8"
+          >
             <Typography variant="h4">Password</Typography>
             <Grid
               container
@@ -496,6 +512,7 @@ const ProfilePage: React.FunctionComponent<PageProps> = ({
                         startEditing("password");
                       }}
                       aria-label="edit-password"
+                      id="profileTourStep9"
                     >
                       <EditIcon />
                     </Fab>
