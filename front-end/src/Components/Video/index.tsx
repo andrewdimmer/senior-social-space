@@ -2,12 +2,12 @@ import { CssBaseline } from "@material-ui/core";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import React from "react";
 import { ConnectOptions } from "twilio-video";
-import App from "./VideoMeeting";
 import ErrorDialog from "./components/ErrorDialog/ErrorDialog";
 import { VideoProvider } from "./components/VideoProvider";
 import AppStateProvider, { useAppState } from "./state";
 import theme from "./theme";
 import "./types";
+import App from "./VideoMeeting";
 
 // See: https://media.twiliocdn.com/sdk/js/video/releases/2.0.0/docs/global.html#ConnectOptions
 // for available connection options.

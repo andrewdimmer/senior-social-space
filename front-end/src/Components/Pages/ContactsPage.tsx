@@ -10,26 +10,13 @@ import {
   Divider
 } from "@material-ui/core";
 import React, { Fragment } from "react";
+import { PageProps } from ".";
 
-const ContactsPage: React.FunctionComponent = () => {
+const ContactsPage: React.FunctionComponent<PageProps> = ({ classes }) => {
   return (
     <Fragment>
-      <Container>
-        <Typography
-          variant="h3"
-          id="profileTourStep1"
-          display="inline"
-          style={{ flexGrow: 1 }}
-        >
-          Contacts
-        </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          style={{ marginTop: "1%", float: "right" }}
-        >
-          Add
-        </Button>
+      <Container className={classes.pageTitle}>
+        <Typography variant="h3">Contacts</Typography>
       </Container>
       <Divider variant="inset" />
       <List>
@@ -257,6 +244,15 @@ const ContactsPage: React.FunctionComponent = () => {
         </ListItem>
         <Divider variant="inset" component="li" />
       </List>
+      <Container className={classes.centerText}>
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.margined}
+        >
+          Add
+        </Button>
+      </Container>
     </Fragment>
   );
 };

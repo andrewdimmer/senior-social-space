@@ -16,7 +16,7 @@ const LogoutPage: React.FunctionComponent<PageProps> = ({
       message: "Successfully Signed Out",
       open: true
     });
-    setPageKey("home");
+    setPageKey("login");
     forceReloadUserData();
   };
 

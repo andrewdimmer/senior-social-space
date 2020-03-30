@@ -9,8 +9,13 @@ const LoginPage: React.FunctionComponent<PageProps> = ({
   setPageKey,
   forceReloadUserData,
   setBusyMessage,
+  currentUser,
   classes
 }) => {
+  if (currentUser) {
+    setPageKey("groups");
+  }
+
   const newUserCallback = (authResult: firebase.auth.UserCredential) => {
     if (authResult.user) {
       const user = authResult.user;
@@ -66,7 +71,7 @@ const LoginPage: React.FunctionComponent<PageProps> = ({
   };
 
   const existingUserCallback = (authResult: firebase.auth.UserCredential) => {
-    setPageKey("home");
+    setPageKey("groups");
     handleUpdateNotification({
       type: "success",
       message: "Successfully Signed In",
@@ -80,12 +85,14 @@ const LoginPage: React.FunctionComponent<PageProps> = ({
       <Container className={classes.pageTitle}>
         <Typography variant="h3">Login</Typography>
       </Container>
-      <LoginUi
-        allowAnonymousAuth={true}
-        newUserCallback={newUserCallback}
-        existingUserCallback={existingUserCallback}
-        classes={classes}
-      />
+      {!currentUser && (
+        <LoginUi
+          allowAnonymousAuth={true}
+          newUserCallback={newUserCallback}
+          existingUserCallback={existingUserCallback}
+          classes={classes}
+        />
+      )}
     </Fragment>
   );
 };
