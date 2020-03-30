@@ -3,12 +3,22 @@ import { OverridableComponent } from "@material-ui/core/OverridableComponent";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import HomeIcon from "@material-ui/icons/Home";
+import ContactsIcon from '@material-ui/icons/Contacts';
+import GroupIcon from '@material-ui/icons/Group';
+import { homeTourSteps } from "../../Tours/homeTourSteps";
+import { loginTourSteps } from "../../Tours/loginTourSteps";
+import { logoutTourSteps } from "../../Tours/logoutTourSteps";
+import { profileTourSteps } from "../../Tours/profileTourSteps";
+import { contactsTourSteps } from "../../Tours/contactsTourSteps";
+import { groupsTourSteps } from "../../Tours/groupsTourSteps";
 import { NotificationMessage } from "../Misc/Notifications";
 import ErrorPage from "./ErrorPage";
 import HomePage from "./Home";
 import LoginPage from "./LoginPage";
 import LogoutPage from "./LogoutPage";
 import ProfilePage from "./ProfilePage";
+import ContactsPage from "./ContactsPage";
+import GroupsPage from "./GroupsPage";
 
 export declare interface PageProps {
   currentUser: firebase.User | null;
@@ -30,6 +40,7 @@ export declare interface PageListForMenuItem {
 declare interface PageListItem extends PageListForMenuItem {
   title: string;
   component: React.FunctionComponent<PageProps>;
+  tourSteps: { selector: string; content: string }[];
 }
 
 const pageList: PageListItem[] = [
@@ -40,7 +51,8 @@ const pageList: PageListItem[] = [
     menuIcon: HomeIcon,
     displaySignedIn: true,
     displaySignedOut: true,
-    component: HomePage
+    component: HomePage,
+    tourSteps: homeTourSteps
   },
   {
     key: "login",
@@ -49,7 +61,28 @@ const pageList: PageListItem[] = [
     menuIcon: ExitToAppIcon,
     displaySignedIn: false,
     displaySignedOut: true,
-    component: LoginPage
+    component: LoginPage,
+    tourSteps: loginTourSteps
+  },
+  {
+    key: "contacts",
+    title: "Contacts",
+    menuLabel: "Contacts",
+    menuIcon: ContactsIcon,
+    displaySignedIn: true,
+    displaySignedOut: false,
+    component: ContactsPage,
+    tourSteps: contactsTourSteps
+  },
+  {
+    key: "groups",
+    title: "Groups",
+    menuLabel: "Groups",
+    menuIcon: GroupIcon,
+    displaySignedIn: true,
+    displaySignedOut: false,
+    component: GroupsPage,
+    tourSteps: groupsTourSteps
   },
   {
     key: "profile",
@@ -58,7 +91,8 @@ const pageList: PageListItem[] = [
     menuIcon: AccountCircleIcon,
     displaySignedIn: true,
     displaySignedOut: false,
-    component: ProfilePage
+    component: ProfilePage,
+    tourSteps: profileTourSteps
   },
   {
     key: "logout",
@@ -67,7 +101,8 @@ const pageList: PageListItem[] = [
     menuIcon: ExitToAppIcon,
     displaySignedIn: true,
     displaySignedOut: false,
-    component: LogoutPage
+    component: LogoutPage,
+    tourSteps: logoutTourSteps
   }
 ];
 
@@ -90,6 +125,15 @@ export const getPageTitle = (key: string): string => {
     return pageObject[key].title;
   }
   return "";
+};
+
+export const getPageTourSteps = (
+  key: string
+): { selector: string; content: string }[] => {
+  if (pageObject[key]) {
+    return pageObject[key].tourSteps;
+  }
+  return [];
 };
 
 export const pageListForMenu: PageListForMenuItem[] = pageList.map(

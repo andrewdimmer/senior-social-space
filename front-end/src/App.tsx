@@ -1,11 +1,17 @@
-import { Container } from "@material-ui/core";
+import { Container, Fab } from "@material-ui/core";
+import HelpIcon from "@material-ui/icons/HelpOutline";
 import React, { Fragment } from "react";
+import Tour from "reactour";
 import NavBar from "./Components/Layouts/NavBar";
 import NotificationBar, {
   NotificationMessage
 } from "./Components/Misc/Notifications";
-import { getPageComponent, getPageTitle } from "./Components/Pages";
-import { firebaseApp } from "./Scripts/firebaseConfig";
+import {
+  getPageComponent,
+  getPageTitle,
+  getPageTourSteps
+} from "./Components/Pages";
+import { firebaseApp } from "./Scripts/FirebaseConfig";
 import { styles } from "./Styles";
 import Loading from "./Components/Misc/LoadingPage";
 import { TwilioVideoRoot } from "./Components/Video";
@@ -22,6 +28,7 @@ const App: React.FunctionComponent = () => {
     open: false
   });
   const [reloadUserData, setReloadUserData] = React.useState<boolean>(true);
+  const [isTourOpen, setTourOpen] = React.useState<boolean>(false);
   const [busyMessage, setBusyMessage] = React.useState<string>("");
 
   const handleChangePage = (pageKey: string) => {
@@ -93,6 +100,31 @@ const App: React.FunctionComponent = () => {
               classes={classes}
             />
           </Container>
+          <Fab
+        style={{
+          position: "fixed",
+          bottom: "5vh",
+          right: "5vw"
+        }}
+        color="secondary"
+        aria-label="add"
+        onClick={() => {
+          console.log(getPageTourSteps(pageKey));
+          if (getPageTourSteps(pageKey).length > 1) {
+            setTourOpen(true);
+          }
+        }}
+      >
+        <HelpIcon />
+      </Fab>
+      <Tour
+        steps={getPageTourSteps(pageKey)}
+        isOpen={isTourOpen}
+        onRequestClose={() => {
+          setTourOpen(false);
+        }}
+        disableInteraction={false}
+      />
         </Fragment>
       )}
     </Fragment>
