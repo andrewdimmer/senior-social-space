@@ -2,6 +2,7 @@ import * as functions from "firebase-functions";
 import { sendSMS } from "./text";
 import { sendWhatsapp } from "./whatsapp";
 import { sendEmail } from "./email";
+import { allSuccessfulResponse } from "../../Helpers/allSuccessful";
 
 export const fullSend = functions.https.onRequest((request, response) => {
   response.setHeader("Access-Control-Allow-Origin", "*");
@@ -14,34 +15,23 @@ export const fullSend = functions.https.onRequest((request, response) => {
     subject: string;
     body: string;
   };
-  const smsNumber = requestBody.smsNumber;
+  const smsNumbers = requestBody.smsNumber.split(",");
   const smsText = requestBody.smsText;
-  const waNumber = requestBody.waNumber;
+  const waNumbers = requestBody.waNumber.split(",");
   const waText = requestBody.waText;
-  const email = requestBody.email;
+  const emails = requestBody.email.split(",");
   const subject = requestBody.subject;
   const body = requestBody.body;
 
-  const senders = [
-    sendSMS(smsText, smsNumber),
-    sendWhatsapp(waText, waNumber),
-    sendEmail(email, subject, body)
-  ];
-  Promise.all(senders)
-    .then(values => {
-      if (values[0]) {
-        console.log("Sent SMS");
-      }
-      if (values[1]) {
-        console.log("Sent Whatsapp");
-      }
-      if (values[2]) {
-        console.log("Sent Email");
-      }
-      response.send(true);
-    })
-    .catch(err => {
-      console.log(err);
-      response.send(false);
-    });
+  const promises = [];
+  for (const phone in smsNumbers) {
+    promises.push(sendSMS(smsText, phone.trim()));
+  }
+  for (const app in waNumbers) {
+    promises.push(sendWhatsapp(waText, app.trim()));
+  }
+  for (const email in emails) {
+    promises.push(sendEmail(email.trim(), subject, body));
+  }
+  allSuccessfulResponse(promises, response);
 });

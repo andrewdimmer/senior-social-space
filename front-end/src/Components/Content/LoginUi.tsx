@@ -4,8 +4,6 @@ import React, { Fragment } from "react";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import { signInSuccessWithAuthResultFactory } from "../../Scripts/firebaseAuth";
 import { firebaseApp } from "../../Scripts/firebaseConfig";
-import { createNewUserDatabaseObjects } from "../../Scripts/firebaseCreateNewUser";
-import { NotificationMessage } from "../Misc/Notifications";
 
 declare interface LoginUiProps {
   allowAnonymousAuth: boolean;

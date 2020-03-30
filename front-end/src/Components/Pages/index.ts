@@ -1,24 +1,21 @@
 import { SvgIconTypeMap } from "@material-ui/core";
 import { OverridableComponent } from "@material-ui/core/OverridableComponent";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import ContactsIcon from "@material-ui/icons/Contacts";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import HomeIcon from "@material-ui/icons/Home";
-import ContactsIcon from '@material-ui/icons/Contacts';
-import GroupIcon from '@material-ui/icons/Group';
-import { homeTourSteps } from "../../Tours/homeTourSteps";
+import GroupIcon from "@material-ui/icons/Group";
+import { contactsTourSteps } from "../../Tours/contactsTourSteps";
+import { groupsTourSteps } from "../../Tours/groupsTourSteps";
 import { loginTourSteps } from "../../Tours/loginTourSteps";
 import { logoutTourSteps } from "../../Tours/logoutTourSteps";
 import { profileTourSteps } from "../../Tours/profileTourSteps";
-import { contactsTourSteps } from "../../Tours/contactsTourSteps";
-import { groupsTourSteps } from "../../Tours/groupsTourSteps";
 import { NotificationMessage } from "../Misc/Notifications";
+import ContactsPage from "./ContactsPage";
 import ErrorPage from "./ErrorPage";
-import HomePage from "./Home";
+import GroupsPage from "./GroupsPage";
 import LoginPage from "./LoginPage";
 import LogoutPage from "./LogoutPage";
 import ProfilePage from "./ProfilePage";
-import ContactsPage from "./ContactsPage";
-import GroupsPage from "./GroupsPage";
 
 export declare interface PageProps {
   currentUser: firebase.User | null;
@@ -44,7 +41,7 @@ declare interface PageListItem extends PageListForMenuItem {
 }
 
 const pageList: PageListItem[] = [
-  {
+  /*{
     key: "home",
     title: "",
     menuLabel: "Home",
@@ -53,7 +50,7 @@ const pageList: PageListItem[] = [
     displaySignedOut: true,
     component: HomePage,
     tourSteps: homeTourSteps
-  },
+  },*/
   {
     key: "login",
     title: "",

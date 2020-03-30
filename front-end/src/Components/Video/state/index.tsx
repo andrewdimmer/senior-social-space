@@ -1,8 +1,7 @@
-import React, { createContext, useContext, useState } from "react";
-import { TwilioError } from "twilio-video";
 import * as firebase from "firebase";
 import ky from "ky";
-import { firebaseApp } from "../../../Scripts/firebaseConfig";
+import React, { createContext, useContext, useState } from "react";
+import { TwilioError } from "twilio-video";
 
 export interface StateContextType {
   error: TwilioError | null;
